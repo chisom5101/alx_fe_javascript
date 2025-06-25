@@ -16,8 +16,8 @@ function saveQuotesToStorage() {
   localStorage.setItem("quotes", JSON.stringify(quotes));
 }
 
-// ✅ REQUIRED: displayRandomQuote function
-function displayRandomQuote() {
+// ✅ ALX-required: showRandomQuote (uses innerHTML)
+function showRandomQuote() {
   const selectedCategory = categoryFilter.value;
 
   const filteredQuotes = selectedCategory === "all"
@@ -25,16 +25,16 @@ function displayRandomQuote() {
     : quotes.filter(q => q.category.toLowerCase() === selectedCategory.toLowerCase());
 
   if (filteredQuotes.length === 0) {
-    quoteDisplay.textContent = "No quotes in this category.";
+    quoteDisplay.innerHTML = "<em>No quotes in this category.</em>";
     return;
   }
 
   const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
   const quote = filteredQuotes[randomIndex];
-  quoteDisplay.textContent = `"${quote.text}" — ${quote.category}`;
+  quoteDisplay.innerHTML = `"${quote.text}" — <strong>${quote.category}</strong>`;
 }
 
-// ✅ REQUIRED: addQuote function
+// ✅ ALX-required: addQuote function
 function addQuote() {
   const text = newQuoteText.value.trim();
   const category = newQuoteCategory.value.trim();
@@ -47,14 +47,14 @@ function addQuote() {
   quotes.push({ text, category });
   saveQuotesToStorage();
   updateCategoryFilter(category);
-  quoteDisplay.textContent = `"${text}" — ${category}`;
+  quoteDisplay.innerHTML = `"${text}" — <strong>${category}</strong>`;
 
   newQuoteText.value = "";
   newQuoteCategory.value = "";
   alert("Quote added successfully!");
 }
 
-// Update the category dropdown if needed
+// Update the dropdown with new category if needed
 function updateCategoryFilter(newCategory) {
   const existingOptions = Array.from(categoryFilter.options).map(opt => opt.value.toLowerCase());
 
@@ -66,15 +66,15 @@ function updateCategoryFilter(newCategory) {
   }
 }
 
-// Load unique categories into dropdown
+// Populate dropdown with initial categories
 function populateInitialCategories() {
   const uniqueCategories = [...new Set(quotes.map(q => q.category))];
   uniqueCategories.forEach(updateCategoryFilter);
 }
 
-// ✅ REQUIRED: Event listener for button
-document.getElementById("newQuote").addEventListener("click", displayRandomQuote);
-categoryFilter.addEventListener("change", displayRandomQuote);
+// ✅ ALX-required: Event listener for button
+document.getElementById("newQuote").addEventListener("click", showRandomQuote);
+categoryFilter.addEventListener("change", showRandomQuote);
 
-// Initialize on load
+// Run setup
 populateInitialCategories();
