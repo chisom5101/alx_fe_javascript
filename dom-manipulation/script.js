@@ -7,8 +7,6 @@ let quotes = JSON.parse(localStorage.getItem("quotes")) || [
 
 // DOM references
 const quoteDisplay = document.getElementById("quoteDisplay");
-const newQuoteText = document.getElementById("newQuoteText");
-const newQuoteCategory = document.getElementById("newQuoteCategory");
 const categoryFilter = document.getElementById("categoryFilter");
 
 // Save quotes to localStorage
@@ -16,7 +14,7 @@ function saveQuotesToStorage() {
   localStorage.setItem("quotes", JSON.stringify(quotes));
 }
 
-// ✅ ALX-required: showRandomQuote (uses innerHTML)
+// ✅ Required: showRandomQuote
 function showRandomQuote() {
   const selectedCategory = categoryFilter.value;
 
@@ -34,8 +32,11 @@ function showRandomQuote() {
   quoteDisplay.innerHTML = `"${quote.text}" — <strong>${quote.category}</strong>`;
 }
 
-// ✅ ALX-required: addQuote function
+// ✅ Required: addQuote
 function addQuote() {
+  const newQuoteText = document.getElementById("newQuoteText");
+  const newQuoteCategory = document.getElementById("newQuoteCategory");
+
   const text = newQuoteText.value.trim();
   const category = newQuoteCategory.value.trim();
 
@@ -54,27 +55,34 @@ function addQuote() {
   alert("Quote added successfully!");
 }
 
-// Update the dropdown with new category if needed
+// ✅ Required: createAddQuoteForm
+function createAddQuoteForm() {
+  const formContainer = document.createElement("div");
+
+  const heading = document.createElement("h3");
+  heading.textContent = "Add a New Quote";
+  formContainer.appendChild(heading);
+
+  const quoteInput = document.createElement("input");
+  quoteInput.id = "newQuoteText";
+  quoteInput.placeholder = "Enter a new quote";
+  formContainer.appendChild(quoteInput);
+
+  const categoryInput = document.createElement("input");
+  categoryInput.id = "newQuoteCategory";
+  categoryInput.placeholder = "Enter quote category";
+  formContainer.appendChild(categoryInput);
+
+  const addButton = document.createElement("button");
+  addButton.textContent = "Add Quote";
+  addButton.onclick = addQuote;
+  formContainer.appendChild(addButton);
+
+  document.body.appendChild(formContainer);
+}
+
+// Add new category to dropdown if not already there
 function updateCategoryFilter(newCategory) {
   const existingOptions = Array.from(categoryFilter.options).map(opt => opt.value.toLowerCase());
 
   if (!existingOptions.includes(newCategory.toLowerCase())) {
-    const option = document.createElement("option");
-    option.value = newCategory;
-    option.textContent = newCategory;
-    categoryFilter.appendChild(option);
-  }
-}
-
-// Populate dropdown with initial categories
-function populateInitialCategories() {
-  const uniqueCategories = [...new Set(quotes.map(q => q.category))];
-  uniqueCategories.forEach(updateCategoryFilter);
-}
-
-// ✅ ALX-required: Event listener for button
-document.getElementById("newQuote").addEventListener("click", showRandomQuote);
-categoryFilter.addEventListener("change", showRandomQuote);
-
-// Run setup
-populateInitialCategories();
