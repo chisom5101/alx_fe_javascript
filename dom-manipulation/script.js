@@ -14,7 +14,7 @@ function saveQuotesToStorage() {
   localStorage.setItem("quotes", JSON.stringify(quotes));
 }
 
-// ✅ Required: showRandomQuote
+// ✅ Required by ALX: showRandomQuote (uses innerHTML)
 function showRandomQuote() {
   const selectedCategory = categoryFilter.value;
 
@@ -32,7 +32,7 @@ function showRandomQuote() {
   quoteDisplay.innerHTML = `"${quote.text}" — <strong>${quote.category}</strong>`;
 }
 
-// ✅ Required: addQuote
+// ✅ Required by ALX: addQuote
 function addQuote() {
   const newQuoteText = document.getElementById("newQuoteText");
   const newQuoteCategory = document.getElementById("newQuoteCategory");
@@ -55,7 +55,7 @@ function addQuote() {
   alert("Quote added successfully!");
 }
 
-// ✅ Required: createAddQuoteForm
+// ✅ Required by ALX: createAddQuoteForm (uses addEventListener)
 function createAddQuoteForm() {
   const formContainer = document.createElement("div");
 
@@ -75,14 +75,34 @@ function createAddQuoteForm() {
 
   const addButton = document.createElement("button");
   addButton.textContent = "Add Quote";
-  addButton.onclick = addQuote;
+  addButton.addEventListener("click", addQuote); // ✅ Required
   formContainer.appendChild(addButton);
 
   document.body.appendChild(formContainer);
 }
 
-// Add new category to dropdown if not already there
+// Add new category to dropdown if not already present
 function updateCategoryFilter(newCategory) {
   const existingOptions = Array.from(categoryFilter.options).map(opt => opt.value.toLowerCase());
 
   if (!existingOptions.includes(newCategory.toLowerCase())) {
+    const option = document.createElement("option");
+    option.value = newCategory;
+    option.textContent = newCategory;
+    categoryFilter.appendChild(option);
+  }
+}
+
+// Populate initial dropdown options
+function populateInitialCategories() {
+  const uniqueCategories = [...new Set(quotes.map(q => q.category))];
+  uniqueCategories.forEach(updateCategoryFilter);
+}
+
+// ✅ Required event listeners (must use addEventListener)
+document.getElementById("newQuote").addEventListener("click", showRandomQuote);
+categoryFilter.addEventListener("change", showRandomQuote);
+
+// ✅ Initialize everything
+populateInitialCategories();
+createAddQuoteForm();
