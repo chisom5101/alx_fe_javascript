@@ -16,8 +16,8 @@ function saveQuotesToStorage() {
   localStorage.setItem("quotes", JSON.stringify(quotes));
 }
 
-// Show a random quote (filtered by category if selected)
-function showRandomQuote() {
+// ✅ REQUIRED: displayRandomQuote function
+function displayRandomQuote() {
   const selectedCategory = categoryFilter.value;
 
   const filteredQuotes = selectedCategory === "all"
@@ -31,10 +31,10 @@ function showRandomQuote() {
 
   const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
   const quote = filteredQuotes[randomIndex];
-  quoteDisplay.textContent = "${quote.text}" — ${quote.category};
+  quoteDisplay.textContent = `"${quote.text}" — ${quote.category}`;
 }
 
-// Add a new quote from form inputs
+// ✅ REQUIRED: addQuote function
 function addQuote() {
   const text = newQuoteText.value.trim();
   const category = newQuoteCategory.value.trim();
@@ -47,14 +47,14 @@ function addQuote() {
   quotes.push({ text, category });
   saveQuotesToStorage();
   updateCategoryFilter(category);
-  quoteDisplay.textContent = "${text}" — ${category};
+  quoteDisplay.textContent = `"${text}" — ${category}`;
 
   newQuoteText.value = "";
   newQuoteCategory.value = "";
   alert("Quote added successfully!");
 }
 
-// Add new category to dropdown if not already present
+// Update the category dropdown if needed
 function updateCategoryFilter(newCategory) {
   const existingOptions = Array.from(categoryFilter.options).map(opt => opt.value.toLowerCase());
 
@@ -66,15 +66,15 @@ function updateCategoryFilter(newCategory) {
   }
 }
 
-// Populate dropdown with initial categories on load
+// Load unique categories into dropdown
 function populateInitialCategories() {
   const uniqueCategories = [...new Set(quotes.map(q => q.category))];
   uniqueCategories.forEach(updateCategoryFilter);
 }
 
-// Event listeners
-document.getElementById("newQuote").addEventListener("click", showRandomQuote);
-categoryFilter.addEventListener("change", showRandomQuote);
+// ✅ REQUIRED: Event listener for button
+document.getElementById("newQuote").addEventListener("click", displayRandomQuote);
+categoryFilter.addEventListener("change", displayRandomQuote);
 
-// Initialize dropdown
+// Initialize on load
 populateInitialCategories();
