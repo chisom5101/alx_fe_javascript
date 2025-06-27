@@ -1,79 +1,43 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dynamic Quote Generator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 30px;
-      background-color: #f9f9f9;
-      color: #333;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Quote Generator</title>
+  </head>
+  <body>
+    <h1>Dynamic Quote Generator</h1>
 
-    h1, h3 {
-      color: #007BFF;
-    }
+    <div>
+      <select id="categoryFilter" onchange="filterQuotes()">
+        <option value="all">All Categories</option>
+      </select>
+    </div>
 
-    #quoteDisplay {
-      background: #fff;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-left: 5px solid #007BFF;
-      font-style: italic;
-      min-height: 60px;
-    }
+    <div id="quoteDisplay"></div>
+    <button id="newQuote">Show New Quote</button>
 
-    input, button, select {
-      display: block;
-      margin: 10px 0;
-      padding: 10px;
-      width: 100%;
-      max-width: 400px;
-      font-size: 16px;
-    }
+    <div>
+      <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
+      <input
+        id="newQuoteCategory"
+        type="text"
+        placeholder="Enter quote category"
+      />
+      <button onclick="addQuote()">Add Quote</button>
+    </div>
 
-    button {
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
+    <div>
+      <button onclick="exportToJson()">Export Quotes</button>
+      <input
+        type="file"
+        id="importFile"
+        accept=".json"
+        onchange="importFromJsonFile(event)"
+      />
+    </div>
 
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    select {
-      background-color: #fff;
-      border: 1px solid #ccc;
-    }
-  </style>
-</head>
-<body>
-
-  <h1>🎯 Dynamic Quote Generator</h1>
-
-  <!-- Display Random Quote -->
-  <div id="quoteDisplay">Click "Show New Quote" to see a quote!</div>
-  <button id="newQuote">Show New Quote</button>
-
-  <!-- Add New Quote -->
-  <h3>Add a New Quote</h3>
-  <div>
-    <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
-    <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-    <button onclick="addQuote()">Add Quote</button>
-  </div>
-
-  <!-- Category Filter -->
-  <h3>Filter by Category</h3>
-  <select id="categoryFilter">
-    <option value="all">All</option>
-  </select>
-
-  <!-- JavaScript File -->
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
